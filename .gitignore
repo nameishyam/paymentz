@@ -41,8 +41,8 @@ _.key
 app-example
 
 # generated native folders
-/ios
-/android
+*ios
+*android
 
 # Compiled Java class files
 *.class
