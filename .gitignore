@@ -6,6 +6,52 @@
 node_modules/
 dist/
 
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+*build/
+*coverage/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+*android/app/debug
+*android/app/profile
+*android/app/release
+
 # VS and VS code
 .vscode/
 .vs/
@@ -13,36 +59,6 @@ dist/
 #Project Files - Manually Ignored
 appsettings.Development.json
 .env
-
-# Expo
-.expo/
-dist/
-web-build/
-expo-env.d.ts
-
-# Native
-.kotlin/
-_.orig._
-_.jks
-_.p8
-_.p12
-_.key
-*.mobileprovision
-
-# Metro
-.metro-health-check*
-
-# macOS
-.DS_Store
-*.pem
-
-# typescript
-*.tsbuildinfo
-app-example
-
-# generated native folders
-*ios
-*android
 
 # Compiled Java class files
 *.class
