@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "scheme": "paymentz",
     "newArchEnabled": true,
+    "userInterfaceStyle": "automatic",
 
     "android": {
       "package": "com.nameishyam.paymentz",
