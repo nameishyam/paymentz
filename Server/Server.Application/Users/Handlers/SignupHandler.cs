@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Server.Application.Dto.Response;
+using Server.Application.Exceptions;
 using Server.Application.Interfaces.Repository;
 using Server.Application.Interfaces.Service;
 using Server.Application.Users.Commands;
@@ -14,6 +15,11 @@ public class SignupHandler(
 {
     public async Task<SignupResponse> Handle(SignupCommand request, CancellationToken cancellationToken)
     {
+        if (await userRepository.ExistsByEmail(request.Request.Email))
+        {
+            throw new ConflictException(request.Request.Email);
+        }
+
         var user = new User
         {
             FirstName = request.Request.FirstName,
@@ -22,7 +28,7 @@ public class SignupHandler(
             Password = BCrypt.Net.BCrypt.HashPassword(request.Request.Password)
         };
 
-        await userRepository.Signup(user);
+        await userRepository.Create(user);
 
         return new SignupResponse
         {

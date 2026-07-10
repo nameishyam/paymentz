@@ -29,7 +29,7 @@ public static class InfrastructureExtensions
                     ValidIssuer = jwtSection["Issuer"],
                     ValidAudience = jwtSection["Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(jwtSection["Key"]!))
+                        Encoding.UTF8.GetBytes(jwtSection["SecretKey"]!))
                 };
 
                 options.Events = new JwtBearerEvents

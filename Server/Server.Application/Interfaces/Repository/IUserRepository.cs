@@ -4,5 +4,7 @@ namespace Server.Application.Interfaces.Repository;
 
 public interface IUserRepository
 {
-    Task Signup(User user);
+    Task<bool> ExistsByEmail(string email);
+    Task<User> GetByEmail(string email);
+    Task Create(User user);
 }

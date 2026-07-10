@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Server.Application.Configurations;
 using Server.Application.Interfaces.Repository;
 using Server.Persistence.Context;
 using Server.Persistence.Repositories;
@@ -14,6 +15,8 @@ public static class PersistenceExtensions
         services.AddDbContext<ApplicationDbContext>(options => 
             options.UseNpgsql(
                 configuration.GetConnectionString("Database")));
+
+        services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
 
         services.AddScoped<IUserRepository, UserRepository>();
 

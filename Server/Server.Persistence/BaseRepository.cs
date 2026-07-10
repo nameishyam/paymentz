@@ -1,5 +1,5 @@
 ﻿namespace Server.Persistence;
 
-public class BaseRepository<T> where T : class
+public class BaseRepository<T>(string connectionString) where T : class
 {
 }

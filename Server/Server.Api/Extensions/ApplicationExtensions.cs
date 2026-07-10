@@ -10,10 +10,12 @@ public static class ApplicationExtensions
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddMediatR(cfg => 
-            cfg.RegisterServicesFromAssembly(typeof(SignupCommand).Assembly));
+        var currentAssembly = typeof(ApplicationReference).Assembly;
 
-        services.AddValidatorsFromAssembly(typeof(SignupValidator).Assembly);
+        services.AddMediatR(cfg => 
+            cfg.RegisterServicesFromAssembly(currentAssembly));
+
+        services.AddValidatorsFromAssembly(currentAssembly);
 
         services.AddTransient(
             typeof(IPipelineBehavior<,>),
