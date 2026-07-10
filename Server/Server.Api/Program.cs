@@ -11,7 +11,8 @@ public static class Program
         builder.Services.AddControllers();
 
         builder.Services
-            .AddApplication(builder.Configuration)
+            .AddApplication()
+            .AddInfrastructure(builder.Configuration)
             .AddPersistence(builder.Configuration);
 
         var app = builder.Build();
