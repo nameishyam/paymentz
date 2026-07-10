@@ -11,11 +11,9 @@ public static class PersistenceExtensions
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddDbContext<ApplicationDbContext>(options =>
-        {
+        services.AddDbContext<ApplicationDbContext>(options => 
             options.UseNpgsql(
-                configuration.GetConnectionString("Database"));
-        });
+                configuration.GetConnectionString("Database")));
 
         services.AddScoped<IUserRepository, UserRepository>();
 

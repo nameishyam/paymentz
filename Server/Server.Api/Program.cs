@@ -11,12 +11,14 @@ public static class Program
         builder.Services.AddControllers();
 
         builder.Services
-            .AddApplication()
+            .AddApplication(builder.Configuration)
             .AddPersistence(builder.Configuration);
 
         var app = builder.Build();
 
         app.UseHttpsRedirection();
+
+        app.UseAuthentication();
 
         app.UseAuthorization();
         

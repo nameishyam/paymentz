@@ -1,4 +1,4 @@
-﻿namespace Server.Application.Users.Commands.Signup;
+﻿namespace Server.Application.Dto.Request;
 
 public class SignupRequest
 {

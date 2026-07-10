@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Server.Application.Users.Commands.Signup;
+using Server.Application.Users.Commands;
 
 namespace Server.Application.Users.Validators;
 
