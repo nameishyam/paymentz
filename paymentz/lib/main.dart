@@ -13,10 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'SMS Reader',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
       home: const SmsReaderScreen(),
     );
   }
@@ -46,9 +43,7 @@ class _SmsReaderScreenState extends State<SmsReaderScreen> {
     }
 
     if (status.isGranted) {
-      final messages = await _query.querySms(
-        kinds: [SmsQueryKind.inbox],
-      );
+      final messages = await _query.querySms(kinds: [SmsQueryKind.inbox]);
       setState(() {
         _messages = messages;
       });
@@ -63,10 +58,7 @@ class _SmsReaderScreenState extends State<SmsReaderScreen> {
       appBar: AppBar(
         title: const Text('SMS Reader'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _fetchSms,
-          ),
+          IconButton(icon: const Icon(Icons.refresh), onPressed: _fetchSms),
         ],
       ),
       body: _messages.isEmpty
@@ -81,7 +73,10 @@ class _SmsReaderScreenState extends State<SmsReaderScreen> {
               itemBuilder: (context, index) {
                 final message = _messages[index];
                 return Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
                   child: ListTile(
                     title: Text(
                       message.address ?? 'Unknown Sender',

@@ -48,7 +48,11 @@ public static class InfrastructureExtensions
                 };
             });
 
+        services.Configure<EmailConfigurations>(
+            configuration.GetSection("EmailSettings"));
+
         services.AddScoped<IJwtService, JwtService>();
+        services.AddScoped<IEmailService, EmailService>();
 
         return services;
     }
