@@ -8,7 +8,7 @@ namespace Server.Api.Extensions;
 
 public static class PersistenceExtensions
 {
-    public static IServiceCollection AddPersistence(
+    public static void AddPersistence(
         this IServiceCollection services,
         IConfiguration configuration)
     {
@@ -19,7 +19,5 @@ public static class PersistenceExtensions
         services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
 
         services.AddScoped<IUserRepository, UserRepository>();
-
-        return services;
     }
 }

@@ -21,8 +21,6 @@ public class UsersController(IMediator mediator) : ControllerBase
         {
             var response = await mediator.Send(new SignupCommand(request));
 
-            SetCookie(response.AccessToken);
-
             return CreatedAtAction(
                 nameof(Signup),
                 new { response.Id },
@@ -46,9 +44,11 @@ public class UsersController(IMediator mediator) : ControllerBase
         {
             var response = await mediator.Send(new LoginCommand(request));
 
-            SetCookie(response.AccessToken);
-
-            return Ok(response.Id);
+            return Ok(new
+            {
+                id = response.Id,
+                token = response.AccessToken
+            });
         }
         catch (NotFoundException e)
         {
@@ -78,19 +78,5 @@ public class UsersController(IMediator mediator) : ControllerBase
         {
             return StatusCode(500, e.Message);
         }
-    }
-
-    private void SetCookie(string accessToken)
-    {
-        Response.Cookies.Append(
-            CookieName,
-            accessToken,
-            new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTimeOffset.UtcNow.AddDays(7)
-            });
     }
 }
