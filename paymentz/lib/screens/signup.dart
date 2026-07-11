@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../api_service.dart';
+import '../api/signup.dart';
 import 'home.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -16,7 +16,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  final ApiService _apiService = ApiService();
+  final SignupService _signupService = SignupService();
   bool _isLoading = false;
 
   void _submit() async {
@@ -24,7 +24,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
     setState(() => _isLoading = true);
 
-    final response = await _apiService.signup(
+    final response = await _signupService.signup(
       email: _emailController.text.trim(),
       password: _passwordController.text,
       firstName: _firstNameController.text.trim(),

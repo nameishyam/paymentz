@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../api_service.dart';
+import '../api/login.dart';
 import 'home.dart';
 import 'signup.dart';
 
@@ -14,7 +14,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final ApiService _apiService = ApiService();
+  final LoginService _loginService = LoginService();
   bool _isLoading = false;
 
   void _submit() async {
@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     setState(() => _isLoading = true);
 
-    final response = await _apiService.login(
+    final response = await _loginService.login(
       _emailController.text.trim(),
       _passwordController.text,
     );
