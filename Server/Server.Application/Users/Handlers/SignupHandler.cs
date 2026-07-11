@@ -23,12 +23,16 @@ public class SignupHandler(
             throw new ConflictException(request.Request.Email);
         }
 
+        var refreshToken = jwtService.GenerateRefreshToken();
+
         var user = new User
         {
             FirstName = request.Request.FirstName,
             LastName = request.Request.LastName,
             Email = request.Request.Email,
-            Password = BCrypt.Net.BCrypt.HashPassword(request.Request.Password)
+            Password = BCrypt.Net.BCrypt.HashPassword(request.Request.Password),
+            RefreshToken = refreshToken,
+            RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7)
         };
 
         await userRepository.Create(user);
@@ -41,7 +45,8 @@ public class SignupHandler(
         return new SignupResponse
         {
             Id = user.Id,
-            AccessToken = jwtService.GenerateToken(user.Id, request.Request.Email)
+            AccessToken = jwtService.GenerateToken(user.Id, request.Request.Email),
+            RefreshToken = refreshToken
         };
     }
 }

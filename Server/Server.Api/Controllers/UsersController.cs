@@ -21,10 +21,13 @@ public class UsersController(IMediator mediator) : ControllerBase
         {
             var response = await mediator.Send(new SignupCommand(request));
 
-            return CreatedAtAction(
-                nameof(Signup),
-                new { response.Id },
-                new { response.Id });
+            SetAuthCookie(response.AccessToken);
+
+            return StatusCode(201, new
+            {
+                response.Id,
+                response.AccessToken
+            });
         }
         catch (ConflictException e)
         {
@@ -44,10 +47,12 @@ public class UsersController(IMediator mediator) : ControllerBase
         {
             var response = await mediator.Send(new LoginCommand(request));
 
+            SetAuthCookie(response.AccessToken);
+
             return Ok(new
             {
-                id = response.Id,
-                token = response.AccessToken
+                response.Id,
+                response.AccessToken
             });
         }
         catch (NotFoundException e)
@@ -78,5 +83,49 @@ public class UsersController(IMediator mediator) : ControllerBase
         {
             return StatusCode(500, e.Message);
         }
+    }
+
+    [HttpPost("refresh")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request)
+    {
+        try
+        {
+            var response = await mediator.Send(new RefreshTokenCommand(request));
+
+            SetAuthCookie(response.AccessToken);
+
+            return Ok(new
+            {
+                response.AccessToken, 
+                response.RefreshToken
+            });
+        }
+        catch (UnauthorizedAccessException e)
+        {
+            return Unauthorized(e.Message);
+        }
+        catch (InvalidDetailsException e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);
+        }
+    }
+
+    private void SetAuthCookie(string token)
+    {
+        Response.Cookies.Append(
+            CookieName,
+            token,
+            new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTimeOffset.UtcNow.AddDays(7)
+            });
     }
 }

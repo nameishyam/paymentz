@@ -19,15 +19,37 @@ public class UserRepository(
             .AnyAsync(u => u.Email == email);
     }
 
+    public async Task<bool> ExistsById(Guid userId)
+    {
+        return await context.Users
+            .AnyAsync(u => u.Id == userId);
+    }
+
     public async Task<User> GetByEmail(string email)
     {
         return await context.Users
             .FirstAsync(u => u.Email == email);
     }
 
+    public async Task<User> GetById(Guid userId)
+    {
+        return await context.Users
+            .FirstAsync(u => u.Id == userId);
+    }
+
     public async Task Create(User user)
     {
         await context.Users.AddAsync(user);
+        await context.SaveChangesAsync();
+    }
+
+    public async Task Update(User user)
+    {
+        var existingUser = await GetById(user.Id);
+
+        existingUser.RefreshToken = user.RefreshToken ?? existingUser.RefreshToken;
+        existingUser.RefreshTokenExpiryTime = user.RefreshTokenExpiryTime ?? existingUser.RefreshTokenExpiryTime;
+
         await context.SaveChangesAsync();
     }
 }

@@ -12,24 +12,29 @@ public class LoginHandler(
     IJwtService jwtService)
     : IRequestHandler<LoginCommand, LoginResponse>
 {
-    public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<LoginResponse> Handle(
+        LoginCommand request,
+        CancellationToken cancellationToken)
     {
-        if (!await userRepository.ExistsByEmail(request.Request.Email))
-        {
-            throw new NotFoundException(request.Request.Email);
-        }
-
-        var user = await userRepository.GetByEmail(request.Request.Email);
+        var user = await userRepository.GetByEmail(request.Request.Email)
+            ?? throw new NotFoundException(request.Request.Email);
 
         if (!BCrypt.Net.BCrypt.Verify(request.Request.Password, user.Password))
         {
             throw new InvalidDetailsException();
         }
 
+        user.RefreshToken = jwtService.GenerateRefreshToken();
+
+        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+
+        await userRepository.Update(user);
+
         return new LoginResponse
         {
             Id = user.Id,
-            AccessToken = jwtService.GenerateToken(user.Id, user.Email)
+            AccessToken = jwtService.GenerateToken(user.Id, user.Email),
+            RefreshToken = user.RefreshToken
         };
     }
 }
