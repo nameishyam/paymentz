@@ -77,6 +77,8 @@ public class UsersController(IMediator mediator) : ControllerBase
         {
             Response.Cookies.Delete(CookieName);
 
+            Console.WriteLine("Logout successful");
+
             return Ok("Logout successful");
         }
         catch (Exception e)
@@ -97,7 +99,7 @@ public class UsersController(IMediator mediator) : ControllerBase
 
             return Ok(new
             {
-                response.AccessToken, 
+                response.AccessToken,
                 response.RefreshToken
             });
         }
