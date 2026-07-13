@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiService {
-  static const String baseUrl = 'http://10.0.2.2:5254/api/users';
+  static String baseUrl =
+      '${dotenv.env['SERVER_URL'] ?? 'http://localhost:3000'}/users';
 
   final FlutterSecureStorage storage = const FlutterSecureStorage();
   final http.Client client = http.Client();
